@@ -86,18 +86,105 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/js/parts/slide.js":
+/*!*******************************!*\
+  !*** ./src/js/parts/slide.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function slide() {
+
+
+    let slideIndex = 1,
+        slides = document.querySelectorAll(".item"),
+        arrowPrev = document.querySelector(".prev"),
+        arrowNext = document.querySelector(".next"),
+        dotsWrap = document.querySelector(".dots"),
+        dots = document.querySelectorAll(".dot");
+
+    showSlides(slideIndex);
+
+    function showSlides(n) {
+
+        if (n > slides.length) {
+            slideIndex = 1;
+        }
+        if (n < 1) {
+            slideIndex = slides.length;
+        }
+
+        slides.forEach((item) => item.style.display = "none");
+        slides.forEach((item) => item.classList.remove("item_active"));
+        dots.forEach((item) => item.classList.remove("dot_active"));
+
+        slides[slideIndex-1].style.display = "block";
+        slides[slideIndex-1].classList.add("item_active");
+        dots[slideIndex-1].classList.add("dot_active");
+    }
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+    function curentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    arrowPrev.addEventListener('click', function() {
+        plusSlides(-1);
+    });
+    arrowNext.addEventListener('click', function() {
+        plusSlides(1);
+    });
+
+    dotsWrap.addEventListener('click', function(event) {
+        for(let i = 0; i < dots.length + 1; i++) {
+            if (event.target.classList.contains("dot") && event.target == dots[i-1]) {
+                curentSlide(i);
+            }
+        }
+    });
+
+
+
+}
+
+// module.exports = slide;
+
+/***/ }),
+
 /***/ "./src/js/script.js":
 /*!**************************!*\
   !*** ./src/js/script.js ***!
   \**************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 window.addEventListener('DOMContentLoaded', () => {
 
+    'use strict';
 
+    let slide = __webpack_require__(/*! ./parts/slide */ "./src/js/parts/slide.js");
+
+
+    // slide();
 
 });
+
+$('.slider').slick({
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    centerMode: true,
+    centerPadding: 0,
+    speed: 1000,
+    dots: true,
+    // easing: 'slow',
+    // cssEase: 'ease',
+    prevArrow: '<button type = "button" class = "arrows slick-prev"><img src="icons/arrow-prev.png"></img></button>',
+    nextArrow: '<button type = "button" class = "arrows slick-next"><img src="icons/arrow-next.png"></img></button>'
+  });
+
 
 /***/ })
 
