@@ -86,70 +86,82 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/js/parts/slide.js":
-/*!*******************************!*\
-  !*** ./src/js/parts/slide.js ***!
-  \*******************************/
+/***/ "./src/js/parts/images.js":
+/*!********************************!*\
+  !*** ./src/js/parts/images.js ***!
+  \********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function slide() {
+function images() {
+    const imgPopup = document.createElement('div'),
+          bigImg = document.createElement('img'),
+          workSection = document.querySelector(".portfolio");
 
+    imgPopup.classList.add('overlay');
+    workSection.appendChild(imgPopup);
 
-    let slideIndex = 1,
-        slides = document.querySelectorAll(".item"),
-        arrowPrev = document.querySelector(".prev"),
-        arrowNext = document.querySelector(".next"),
-        dotsWrap = document.querySelector(".dots"),
-        dots = document.querySelectorAll(".dot");
+    imgPopup.style.justifyContent = "center";
+    imgPopup.style.alignItems = "center";
+    imgPopup.style.display = "none";
 
-    showSlides(slideIndex);
+    imgPopup.appendChild(bigImg);
 
-    function showSlides(n) {
+    workSection.addEventListener('click', (e) => {
+        e.preventDefault();
 
-        if (n > slides.length) {
-            slideIndex = 1;
+        let target = e.target;
+        
+        if (target && target.matches("a img")) {
+
+            imgPopup.style.display = "flex";
+            const path = target.parentNode.getAttribute('href');
+            bigImg.setAttribute('src', path);
+            bigImg.style.display = "block";
+            bigImg.style.width = "400px";
+            bigImg.classList.add("faded");
+            imgPopup.classList.add("faded");
+            document.body.style.overflow = "hidden";
+
         }
-        if (n < 1) {
-            slideIndex = slides.length;
-        }
 
-        slides.forEach((item) => item.style.display = "none");
-        slides.forEach((item) => item.classList.remove("item_active"));
-        dots.forEach((item) => item.classList.remove("dot_active"));
-
-        slides[slideIndex-1].style.display = "block";
-        slides[slideIndex-1].classList.add("item_active");
-        dots[slideIndex-1].classList.add("dot_active");
-    }
-
-    function plusSlides(n) {
-        showSlides(slideIndex += n);
-    }
-    function curentSlide(n) {
-        showSlides(slideIndex = n);
-    }
-
-    arrowPrev.addEventListener('click', function() {
-        plusSlides(-1);
-    });
-    arrowNext.addEventListener('click', function() {
-        plusSlides(1);
-    });
-
-    dotsWrap.addEventListener('click', function(event) {
-        for(let i = 0; i < dots.length + 1; i++) {
-            if (event.target.classList.contains("dot") && event.target == dots[i-1]) {
-                curentSlide(i);
-            }
+        if (target && target.matches('div.overlay')) {
+            imgPopup.style.display = "none";
+            bigImg.style.display = "none";
+            document.body.style.overflow = "";
         }
     });
+        
+}
 
+module.exports = images;
 
+/***/ }),
+
+/***/ "./src/js/parts/scroll.js":
+/*!********************************!*\
+  !*** ./src/js/parts/scroll.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function showUp() {
+    window.addEventListener('scroll', () => {
+
+        let btnUp = document.querySelector(".up");
+
+        if (window.pageYOffset > 700) {
+            btnUp.style.display = "block";
+        } else {
+            btnUp.style.display = "none";
+        }
+    });
 
 }
 
-// module.exports = slide;
+
+
+module.exports = showUp;
 
 /***/ }),
 
@@ -164,26 +176,83 @@ window.addEventListener('DOMContentLoaded', () => {
 
     'use strict';
 
-    let slide = __webpack_require__(/*! ./parts/slide */ "./src/js/parts/slide.js");
+    let showUp = __webpack_require__(/*! ./parts/scroll */ "./src/js/parts/scroll.js"),
+        images = __webpack_require__(/*! ./parts/images */ "./src/js/parts/images.js");
 
 
-    // slide();
+
+    // showUp();
+    images();
+    
+    new WOW().init();
+
+
+    
 
 });
 
-$('.slider').slick({
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    centerMode: true,
-    centerPadding: 0,
-    speed: 1000,
-    dots: true,
-    // easing: 'slow',
-    // cssEase: 'ease',
-    prevArrow: '<button type = "button" class = "arrows slick-prev"><img src="icons/arrow-prev.png"></img></button>',
-    nextArrow: '<button type = "button" class = "arrows slick-next"><img src="icons/arrow-next.png"></img></button>'
-  });
+$(document).ready(function(){
+
+    $('.slider').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        centerMode: true,
+        centerPadding: 0,
+        speed: 1000,
+        dots: true,
+        prevArrow: '<button type = "button" class = "arrows slick-prev"><img src="icons/arrow-prev.png"></img></button>',
+        nextArrow: '<button type = "button" class = "arrows slick-next"><img src="icons/arrow-next.png"></img></button>'
+    });
+
+
+    $(".menu, button, .footer__nav").on("click","a", function (event) {
+        event.preventDefault();
+        var id  = $(this).attr('href'),
+            top = $(id).offset().top;
+        $('body,html').animate({scrollTop: top}, 1500);
+    });
+
+    $('form').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "mailer/smart.php",
+            data: $(this).serialize()
+        }).done(function() {
+            $(this).find("input").val("");
+            $('form, .appointment .title, .appointment__info, .appointment__require').fadeOut();
+            $('body').css({'overflow' : 'hidden'});
+            $(".overlay").fadeIn('slow');
+
+            $('form').trigger('reset');
+        });
+        return false;
+    });
+
+    $('.close').on('click', function() {
+        $(".overlay").fadeOut();
+        $('body').css({'overflow' : ''});
+        $('form, appointment title, appointment__info, .appointment__require').fadeIn();
+    });
+
+
+    $.fn.setCursorPosition = function(pos) {
+        if ($(this).get(0).setSelectionRange) {
+          $(this).get(0).setSelectionRange(pos, pos);
+        } else if ($(this).get(0).createTextRange) {
+          var range = $(this).get(0).createTextRange();
+          range.collapse(true);
+          range.moveEnd('character', pos);
+          range.moveStart('character', pos);
+          range.select();
+        }
+      };
+      $('input[name="phone"]').click(function(){
+        $(this).setCursorPosition(3);  // set position number
+      });
+
+});
 
 
 /***/ })
