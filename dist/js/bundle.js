@@ -86,6 +86,49 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/js/parts/hamburger.js":
+/*!***********************************!*\
+  !*** ./src/js/parts/hamburger.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function hamburger(btnSelector, menuSelector, menuItemsSelector) {
+    let ham = document.querySelector(btnSelector),
+        menu = document.querySelector(menuSelector),
+        menuItem = document.querySelectorAll(menuItemsSelector);
+
+    ham.addEventListener('click', () => {
+        menu.classList.toggle("menu_active");
+        ham.classList.toggle("hamburger_active");
+    });
+
+    menuItem.forEach((item) => {
+        item.addEventListener('click', () => {
+            menu.classList.remove("menu_active");
+        ham.classList.remove("hamburger_active");
+        });
+    });
+
+
+
+
+    // menu.addEventListener('click', (e) => {
+    //     let target = e.target;
+
+    //     if (target && target.contains("menu__item")) {
+    //         menu.classList.remove("menu_active");
+    //         ham.classList.remove("hamburger_active");
+    //     }
+    // });
+
+
+}
+
+module.exports = hamburger;
+
+/***/ }),
+
 /***/ "./src/js/parts/images.js":
 /*!********************************!*\
   !*** ./src/js/parts/images.js ***!
@@ -138,30 +181,74 @@ module.exports = images;
 
 /***/ }),
 
-/***/ "./src/js/parts/scroll.js":
-/*!********************************!*\
-  !*** ./src/js/parts/scroll.js ***!
-  \********************************/
+/***/ "./src/js/parts/price-btn.js":
+/*!***********************************!*\
+  !*** ./src/js/parts/price-btn.js ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function showUp() {
-    window.addEventListener('scroll', () => {
+function pricesBtn() {
+    
+    let btnPrice = document.querySelectorAll(".block-serve__btn"),
+        mainBlock = document.querySelectorAll(".block-serve__wrap"),
+        additionBlock = document.querySelectorAll(".block-serve__main"),
+        block = document.querySelector(".content"),
+        backBtn = document.querySelectorAll(".block-serve__btn-back");
 
-        let btnUp = document.querySelector(".up");
+        block.addEventListener('click', (e) => {
+            e.preventDefault();
+            let target = e.target;
+            
+            if (target && target.classList.contains("block-serve__btn")) {
+                for (let i = 0; i < btnPrice.length; i++) {
+                    if (target == btnPrice[i]) {
+                        mainBlock[i].classList.add("block-serve__wrap_active");
+                        additionBlock[i].classList.add("block-serve__main_active");
+                    }
+                }
+            }
+            if (target && target.classList.contains("block-serve__btn-back")) {
+                for (let i = 0; i < backBtn.length; i++) {
+                    if (target == backBtn[i]) {
+                        mainBlock[i].classList.remove("block-serve__wrap_active");
+                        additionBlock[i].classList.remove("block-serve__main_active");
+                    }
+                }
+            }
+        });
 
-        if (window.pageYOffset > 700) {
-            btnUp.style.display = "block";
-        } else {
-            btnUp.style.display = "none";
-        }
-    });
+    //     let btnMore = document.querySelectorAll(".tab-box__btn"),
+    //     boxAdd = document.querySelectorAll(".tab-box__add");
+
+ 
+
+    // tabContent[1].addEventListener('click', function(event) {
+    //     let target = event.target;
+    //     if (target && target.classList.contains("tab-box__btn")) {
+    //         for (let i = 0; i < btnMore.length; i++) {
+    //             if (target == btnMore[i]) {
+    //                 boxAdd[i].classList.toggle("show");
+    //             }
+    //         }
+    //     }
+    // });
+
+    
+
+
+    // for (let i = 0; i < tab.length; i++) {
+    //     if (target == tab[i]) {
+    //         hideTabContent(0);
+    //         showTabContent(i);
+    //         removeActive();
+    //         tab[i].classList.add("medicine-main__tab_active");
+    //     }
+    // }
 
 }
 
-
-
-module.exports = showUp;
+module.exports = pricesBtn;
 
 /***/ }),
 
@@ -176,36 +263,62 @@ window.addEventListener('DOMContentLoaded', () => {
 
     'use strict';
 
-    let showUp = __webpack_require__(/*! ./parts/scroll */ "./src/js/parts/scroll.js"),
-        images = __webpack_require__(/*! ./parts/images */ "./src/js/parts/images.js");
+    let images = __webpack_require__(/*! ./parts/images */ "./src/js/parts/images.js"),
+        hamburger = __webpack_require__(/*! ./parts/hamburger */ "./src/js/parts/hamburger.js"),
+        pricesBtn = __webpack_require__(/*! ./parts/price-btn */ "./src/js/parts/price-btn.js");
+        // showUp = require("./parts/scroll")
+        
 
 
 
     // showUp();
     images();
+    hamburger(".hamburger", ".menu", ".menu__item");
+    pricesBtn();
     
-    new WOW().init();
+    new WOW().init();  
 
+    // if (window.matchMedia('screen and (max-width: 400px)').matches) {
+    //     alert("hello");
+    //   } else {
+    //       alert("goodbye");
+    //   }
 
-    
 
 });
 
 $(document).ready(function(){
 
-    $('.slider').slick({
+    $('.mobile-slide').slick({
         infinite: true,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        centerMode: true,
-        centerPadding: 0,
-        speed: 1000,
-        dots: true,
-        prevArrow: '<button type = "button" class = "arrows slick-prev"><img src="icons/arrow-prev.png"></img></button>',
-        nextArrow: '<button type = "button" class = "arrows slick-next"><img src="icons/arrow-next.png"></img></button>'
+        responsive: [
+            {
+              breakpoint: 992,
+              settings: {
+                arrows: true,
+                prevArrow: '<button type="button" class="slick-prev arrows"><img src="icons/arrow-prev.png"></button>',
+                nextArrow: '<button type="button" class="slick-next arrows"><img src="icons/arrow-next.png"></button>',
+                // centerMode: true,
+                centerPadding: '40px',
+                slidesToShow: 3
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                arrows: false,
+                centerPadding: '40px',
+                slidesToShow: 1,
+                adaptiveHeight: true,
+                centerMode: true,
+                variableWidth: true,
+                dots: true
+              }
+            }
+          ]
     });
 
-
+    // light scroll
     $(".menu, button, .footer__nav").on("click","a", function (event) {
         event.preventDefault();
         var id  = $(this).attr('href'),
@@ -213,6 +326,9 @@ $(document).ready(function(){
         $('body,html').animate({scrollTop: top}, 1500);
     });
 
+
+
+    // send form
     $('form').submit(function(e) {
         e.preventDefault();
         $.ajax({
@@ -237,20 +353,7 @@ $(document).ready(function(){
     });
 
 
-    $.fn.setCursorPosition = function(pos) {
-        if ($(this).get(0).setSelectionRange) {
-          $(this).get(0).setSelectionRange(pos, pos);
-        } else if ($(this).get(0).createTextRange) {
-          var range = $(this).get(0).createTextRange();
-          range.collapse(true);
-          range.moveEnd('character', pos);
-          range.moveStart('character', pos);
-          range.select();
-        }
-      };
-      $('input[name="phone"]').click(function(){
-        $(this).setCursorPosition(3);  // set position number
-      });
+
 
 });
 
