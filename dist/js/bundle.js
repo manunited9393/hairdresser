@@ -93,22 +93,35 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function hamburger(btnSelector, menuSelector, menuItemsSelector) {
+function hamburger(btnSelector, menuSelector) {
     let ham = document.querySelector(btnSelector),
-        menu = document.querySelector(menuSelector),
-        menuItem = document.querySelectorAll(menuItemsSelector);
+        menu = document.querySelector(menuSelector);
 
     ham.addEventListener('click', () => {
         menu.classList.toggle("menu_active");
         ham.classList.toggle("hamburger_active");
     });
 
-    menuItem.forEach((item) => {
-        item.addEventListener('click', () => {
+    // menuItem.forEach((item) => {
+    //     item.addEventListener('click', () => {
+    //     menu.classList.remove("menu_active");
+    //     ham.classList.remove("hamburger_active");
+    //     });
+    // });
+
+    menu.addEventListener('click', (e) => {
+        if (e.target && e.target.matches('li a')) {
             menu.classList.remove("menu_active");
-        ham.classList.remove("hamburger_active");
-        });
+            ham.classList.remove("hamburger_active");
+        }
     });
+    let header = document.querySelector(".header");
+
+    header.addEventListener('click', () => {
+        ham.classList.remove("hamburger_active");
+        menu.classList.remove("menu_active"); 
+    });
+
 
 
 
@@ -139,7 +152,8 @@ module.exports = hamburger;
 function images() {
     const imgPopup = document.createElement('div'),
           bigImg = document.createElement('img'),
-          workSection = document.querySelector(".portfolio");
+          workSection = document.querySelector(".portfolio"),
+          hideBlock = document.querySelectorAll(".hideJs");
 
     imgPopup.classList.add('overlay');
     workSection.appendChild(imgPopup);
@@ -165,6 +179,7 @@ function images() {
             bigImg.classList.add("faded");
             imgPopup.classList.add("faded");
             document.body.style.overflow = "hidden";
+            hideBlock.forEach((item) => item.style.display = "none");
 
         }
 
@@ -172,6 +187,7 @@ function images() {
             imgPopup.style.display = "none";
             bigImg.style.display = "none";
             document.body.style.overflow = "";
+            hideBlock.forEach((item) => item.style.display = "block");
         }
     });
         
