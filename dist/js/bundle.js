@@ -11037,7 +11037,8 @@ function images() {
     const imgPopup = document.createElement('div'),
           bigImg = document.createElement('img'),
           workSection = document.querySelector(".portfolio"),
-          hideBlock = document.querySelectorAll(".hideJs");
+          hideBlock = document.querySelectorAll(".hideJs"),
+          scroll = calcScroll();
 
     imgPopup.classList.add('overlay');
     workSection.appendChild(imgPopup);
@@ -11064,6 +11065,7 @@ function images() {
             imgPopup.classList.add("faded");
             document.body.style.overflow = "hidden";
             hideBlock.forEach((item) => item.style.display = "none");
+            document.body.style.marginRight = `${scroll}px`;
 
         }
 
@@ -11072,9 +11074,26 @@ function images() {
             bigImg.style.display = "none";
             document.body.style.overflow = "";
             hideBlock.forEach((item) => item.style.display = "block");
+            document.body.style.marginRight = `0px`;
         }
     });
-        
+
+    // hidden scroll
+
+    function calcScroll() {
+        let div = document.createElement("div");
+
+        div.style.width = "50px";
+        div.style.height = "50px";
+        div.style.backgroundColor = "red";
+        div.style.overflowY = "scroll";
+        div.style.visibility = "hidden";
+        document.body.appendChild(div);
+
+        let scrollWidth = div.offsetWidth - div.clientWidth;
+        div.remove();
+        return scrollWidth;
+    }       
 }
 
 module.exports = images;
@@ -11096,6 +11115,15 @@ function pricesBtn() {
         block = document.querySelector(".content"),
         backBtn = document.querySelectorAll(".block-serve__btn-back");
 
+        function hideAllBlocks() {
+            mainBlock.forEach((item) => {
+                item.classList.remove("block-serve__wrap_active");
+            });
+            additionBlock.forEach((item) => {
+                item.classList.remove("block-serve__main_active");
+            });
+        }
+
         block.addEventListener('click', (e) => {
             e.preventDefault();
             let target = e.target;
@@ -11103,6 +11131,7 @@ function pricesBtn() {
             if (target && target.classList.contains("block-serve__btn")) {
                 for (let i = 0; i < btnPrice.length; i++) {
                     if (target == btnPrice[i]) {
+                        hideAllBlocks();
                         mainBlock[i].classList.add("block-serve__wrap_active");
                         additionBlock[i].classList.add("block-serve__main_active");
                     }
