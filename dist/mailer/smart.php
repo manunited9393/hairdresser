@@ -11,10 +11,10 @@ $mail->CharSet = 'utf-8';
 // $mail->SMTPDebug = 3;                               // Enable verbose debug output
 
 $mail->isSMTP();                                      // Set mailer to use SMTP
-$mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+$mail->Host = 'smtp.yandex';  // Specify main and backup SMTP servers
 $mail->SMTPAuth = true;                               // Enable SMTP authentication
-$mail->Username = 'snottyknock@gmail.com';                 // Наш логин
-$mail->Password = '3594335943Q';                           // Наш пароль от ящика
+$mail->Username = 'myuhvidov@yandex.by';                 // Наш логин
+$mail->Password = '3594335943Qq';                           // Наш пароль от ящика
 $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
 $mail->Port = 465;                                    // TCP port to connect to
  
@@ -42,3 +42,5 @@ if(!$mail->send()) {
 }
 
 ?>
+
+<!-- сборщик почты яндекс (lygfxrvdzzvaoooh) -->
