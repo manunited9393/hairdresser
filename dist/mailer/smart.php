@@ -11,16 +11,19 @@ $mail->CharSet = 'utf-8';
 // $mail->SMTPDebug = 3;                               // Enable verbose debug output
 
 $mail->isSMTP();                                      // Set mailer to use SMTP
-$mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+// $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+$mail->Host = 'smtp.yandex.ru';  // второй
 $mail->SMTPAuth = true;                               // Enable SMTP authentication
-$mail->Username = 'snottyknock@gmail.com';                 // Наш логин
-$mail->Password = '3594335943Q';                           // Наш пароль от ящика
+// $mail->Username = 'snottyknock@gmail.com';                 // Наш логин
+$mail->Username = 'myuhvidov';                 // второй
+// $mail->Password = '3594335943Q';                           // Наш пароль от ящика
+$mail->Password = '3594335943Qq';                           // второй
 $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
 $mail->Port = 465;                                    // TCP port to connect to
  
-$mail->setFrom('парикмахер', 'Pulse');   // От кого письмо 
+$mail->setFrom('myuhvidov@yandex.by', 'КЛИЕНТ');   // От кого письмо 
 $mail->addAddress('man_united_9393@mail.ru');     // Add a recipient
-//$mail->addAddress('ellen@example.com');               // Name is optional
+$mail->addAddress('haircutisr@gmail.com');               // Name is optional
 //$mail->addReplyTo('info@example.com', 'Information');
 //$mail->addCC('cc@example.com');
 //$mail->addBCC('bcc@example.com');
