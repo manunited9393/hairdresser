@@ -1,0 +1,99 @@
+.portfolio {
+    padding: 70px 0;
+    background: url(../images/portfolio/portfolio-bg.png);
+    // background-position: 0 -25px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.877);
+    &__images {
+        margin-top: 50px;
+    }
+    &__img {
+        display: block;
+        margin-bottom: 60px;
+        img {
+            width: 100%;
+        }
+        &_center {
+            margin-bottom: 38.4px;
+        }
+    }
+}
+.mobile-slide {
+    display: none;
+    margin-top: 30px;
+    width: 100%;
+    z-index: 1;
+    &__img {
+        margin: 0 7px;
+        img {
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+    }
+    .arrows {
+        position: absolute;
+        bottom: 0;
+        transform: translateY(150%);
+        left: 35%;
+        width: 30px;
+        height: 30px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 100%;;
+        border: none;
+        img {
+            display: block;
+            width: 100%;
+            transform: translateX(-2px)
+        }
+    }
+    .slick-next {
+        left: auto;
+        right: 35%;
+        img {
+            transform: translateX(2px)
+        }
+    }
+}
+.slick-track {
+    display: flex;
+    align-items: center;
+}
+.slick-dots {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    li {
+        margin: 0 6px;
+        font-size: 0;
+        z-index: 100;
+        position: relative;
+        &:after {
+            content: "\2B24";
+            font-size: 12px;
+            // position: absolute;
+            display: inline-block;
+            color: $main-color;
+            background-color: rgba(255, 255, 255, 0.007);
+            width: 100%;
+            height: 20px;
+            // position: absolute;
+            left: 0;
+        }
+        button {
+            width: 0;
+            height: 0;
+            border: none;
+            padding: 0;
+        }
+    }
+    li.slick-active {
+        &:after {
+            color: rgba(61, 64, 253, 0.678);
+            font-size: 14px;
+            transform: translateY(-2px)
+        }
+    }
+}

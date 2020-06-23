@@ -1,0 +1,32 @@
+.hamburger {
+    width: 30px;
+    height: 20px;
+    position: fixed;
+    transition: 1s all ease;
+    display: none;
+    z-index: 2000;
+    span {
+        height: 2px;
+        background-color: rgb(255, 253, 253);
+        width: 100%;
+        display: block;
+        margin-bottom: 6px;
+        transition: 1s all;
+    }
+    &_active {
+        transition: 1s all;
+        span {
+            &:first-child {
+                margin-top: 10px;
+                transform: rotate(45deg);
+            }
+            &:nth-child(2) {
+                display: none;
+            }
+            &:last-child {
+                margin-top: -7px;
+                transform: rotate(-45deg);
+            }
+        }
+    }
+}

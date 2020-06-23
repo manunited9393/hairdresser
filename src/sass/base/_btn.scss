@@ -1,0 +1,32 @@
+.btn {
+    padding: 12px 50px 12px 20px;
+    background-color: $main-color;
+    transform: skewX(-30deg);
+    display: flex;
+    flex-direction: row;
+    span {
+        display: inline-block;
+        transform: skewX(30deg);
+        text-transform: capitalize;
+        color: #fff;
+    }
+    img {
+        margin: -5px 5px 0 0;
+        display: inline-block;
+        transform: skewX(30deg);
+    }
+    a {
+        display: inline-block;
+        transform: skewX(30deg);
+        text-transform: capitalize;
+        color: #fff;
+    }
+    &:hover {
+        color: rgb(212, 212, 212);
+    }
+}
+@media (max-width: 440px) {
+    .btn {
+        padding: 10px 13px 10px 13px;
+    }
+}
